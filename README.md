@@ -1,14 +1,10 @@
-# MCP Server Go 🚀
+# MCP Server Go
 
 [![Build](https://github.com/shaneholloman/mcp-server-go/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/shaneholloman/mcp-server-go/actions/workflows/ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/shaneholloman/mcp-server-go?cache)](https://goreportcard.com/report/github.com/shaneholloman/mcp-server-go)
 [![GoDoc](https://pkg.go.dev/badge/github.com/shaneholloman/mcp-server-go.svg)](https://pkg.go.dev/github.com/shaneholloman/mcp-server-go)
 
-<div align="center">
-
-<strong>A Go implementation of the Model Context Protocol (MCP), enabling seamless integration between LLM applications and external data sources and tools.</strong>
-
-</div>
+> A Go implementation of the Model Context Protocol (MCP), enabling seamless integration between LLM applications and external data sources and tools.
 
 ```go
 package main
@@ -24,7 +20,7 @@ import (
 func main() {
     // Create MCP server
     s := server.NewMCPServer(
-        "Demo 🚀",
+        "Demo",
         "1.0.0",
     )
 
@@ -60,15 +56,14 @@ That's it!
 
 MCP Go handles all the complex protocol details and server management, so you can focus on building great tools. It aims to be high-level and easy to use.
 
-### Key features
+## Key features
 
 * **Fast**: High-level interface means less code and faster development
 * **Simple**: Build MCP servers with minimal boilerplate
 * **Complete***: MCP Go aims to provide a full implementation of the core MCP specification
 
-(\*emphasis on *aims*)
-
-🚨 🚧 🏗️ *MCP Go is under active development, as is the MCP specification itself. Core features are working but some advanced capabilities are still in progress.*
+> [!IMPORTANT]
+> *MCP Go is under active development, as is the MCP specification itself. Core features are working but some advanced capabilities are still in progress.*
 
 <!-- omit in toc -->
 ## Table of Contents
@@ -84,7 +79,7 @@ MCP Go handles all the complex protocol details and server management, so you ca
 * [Examples](#examples)
 * [Contributing](#contributing)
   * [Prerequisites](#prerequisites)
-  * [Installation](#installation-1)
+  * [Dev Installation](#dev-installation)
   * [Testing](#testing)
   * [Opening a Pull Request](#opening-a-pull-request)
 
@@ -521,7 +516,7 @@ For examples, see the `examples/` directory.
 
 Go version >= 1.23
 
-### Installation
+### Dev Installation
 
 Create a fork of this repository, then clone it:
 
