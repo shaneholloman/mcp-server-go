@@ -4,6 +4,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/shaneholloman/mcp-server-go?cache)](https://goreportcard.com/report/github.com/shaneholloman/mcp-server-go)
 [![GoDoc](https://pkg.go.dev/badge/github.com/shaneholloman/mcp-server-go.svg)](https://pkg.go.dev/github.com/shaneholloman/mcp-server-go)
 
+> [!TIP]
 > A Go implementation of the Model Context Protocol (MCP), enabling seamless integration between LLM applications and external data sources and tools.
 
 ```go
