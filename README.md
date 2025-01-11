@@ -1,5 +1,5 @@
-<!-- omit in toc -->
-# MCP Go 🚀
+# MCP Server Go 🚀
+
 [![Build](https://github.com/shaneholloman/mcp-server-go/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/shaneholloman/mcp-server-go/actions/workflows/ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/shaneholloman/mcp-server-go?cache)](https://goreportcard.com/report/github.com/shaneholloman/mcp-server-go)
 [![GoDoc](https://pkg.go.dev/badge/github.com/shaneholloman/mcp-server-go.svg)](https://pkg.go.dev/github.com/shaneholloman/mcp-server-go)
@@ -60,33 +60,33 @@ That's it!
 
 MCP Go handles all the complex protocol details and server management, so you can focus on building great tools. It aims to be high-level and easy to use.
 
-### Key features:
+### Key features
+
 * **Fast**: High-level interface means less code and faster development
 * **Simple**: Build MCP servers with minimal boilerplate
 * **Complete***: MCP Go aims to provide a full implementation of the core MCP specification
 
 (\*emphasis on *aims*)
 
-🚨 🚧 🏗️ *MCP Go is under active development, as is the MCP specification itself. Core features are working but some advanced capabilities are still in progress.* 
-
+🚨 🚧 🏗️ *MCP Go is under active development, as is the MCP specification itself. Core features are working but some advanced capabilities are still in progress.*
 
 <!-- omit in toc -->
 ## Table of Contents
 
-- [Installation](#installation)
-- [Quickstart](#quickstart)
-- [What is MCP?](#what-is-mcp)
-- [Core Concepts](#core-concepts)
-  - [Server](#server)
-  - [Resources](#resources)
-  - [Tools](#tools)
-  - [Prompts](#prompts)
-- [Examples](#examples)
-- [Contributing](#contributing)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation-1)
-  - [Testing](#testing)
-  - [Opening a Pull Request](#opening-a-pull-request)
+* [Installation](#installation)
+* [Quickstart](#quickstart)
+* [What is MCP?](#what-is-mcp)
+* [Core Concepts](#core-concepts)
+  * [Server](#server)
+  * [Resources](#resources)
+  * [Tools](#tools)
+  * [Prompts](#prompts)
+* [Examples](#examples)
+* [Contributing](#contributing)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation-1)
+  * [Testing](#testing)
+  * [Opening a Pull Request](#opening-a-pull-request)
 
 ## Installation
 
@@ -166,18 +166,17 @@ func main() {
     }
 }
 ```
+
 ## What is MCP?
 
 The [Model Context Protocol (MCP)](https://modelcontextprotocol.io) lets you build servers that expose data and functionality to LLM applications in a secure, standardized way. Think of it like a web API, but specifically designed for LLM interactions. MCP servers can:
 
-- Expose data through **Resources** (think of these sort of like GET endpoints; they are used to load information into the LLM's context)
-- Provide functionality through **Tools** (sort of like POST endpoints; they are used to execute code or otherwise produce a side effect)
-- Define interaction patterns through **Prompts** (reusable templates for LLM interactions)
-- And more!
-
+* Expose data through **Resources** (think of these sort of like GET endpoints; they are used to load information into the LLM's context)
+* Provide functionality through **Tools** (sort of like POST endpoints; they are used to execute code or otherwise produce a side effect)
+* Define interaction patterns through **Prompts** (reusable templates for LLM interactions)
+* And more!
 
 ## Core Concepts
-
 
 ### Server
 
@@ -207,8 +206,8 @@ if err := server.ServeStdio(s); err != nil {
 <summary>Show Resource Examples</summary>
 Resources are how you expose data to LLMs. They can be anything - files, API responses, database queries, system information, etc. Resources can be:
 
-- Static (fixed URI)
-- Dynamic (using URI templates)
+* Static (fixed URI)
+* Dynamic (using URI templates)
 
 Here's a simple example of a static resource:
 
@@ -217,7 +216,7 @@ Here's a simple example of a static resource:
 resource := mcp.NewResource(
     "docs://readme",
     "Project README",
-    mcp.WithResourceDescription("The project's README file"), 
+    mcp.WithResourceDescription("The project's README file"),
     mcp.WithMIMEType("text/markdown"),
     mcp.WithAnnotations([]mcp.Role{mcp.RoleAssistant}, 0.8),
 )
@@ -228,7 +227,7 @@ s.AddResource(resource, func(ctx context.Context, request mcp.ReadResourceReques
     if err != nil {
         return nil, err
     }
-    
+
     return []interface{}{
         mcp.TextResourceContents{
             ResourceContents: mcp.ResourceContents{
@@ -256,12 +255,12 @@ template := mcp.NewResourceTemplate(
 // Add template with its handler
 s.AddResourceTemplate(template, func(ctx context.Context, request mcp.ReadResourceRequest) ([]interface{}, error) {
     userID := request.Params.URI // Extract ID from the full URI
-    
+
     profile, err := getUserProfile(userID)  // Your DB/API call here
     if err != nil {
         return nil, err
     }
-    
+
     return []interface{}{
         mcp.TextResourceContents{
             ResourceContents: mcp.ResourceContents{
@@ -285,6 +284,7 @@ The examples are simple but demonstrate the core concepts. Resources can be much
 Tools let LLMs take actions through your server. Unlike resources, tools are expected to perform computation and have side effects. They're similar to POST endpoints in a REST API.
 
 Simple calculation example:
+
 ```go
 calculatorTool := mcp.NewTool("calculate",
     mcp.WithDescription("Perform basic arithmetic calculations"),
@@ -322,12 +322,13 @@ s.AddTool(calculatorTool, func(ctx context.Context, request mcp.CallToolRequest)
         }
         result = x / y
     }
-    
+
     return mcp.FormatNumberResult(result), nil
 })
 ```
 
 HTTP request example:
+
 ```go
 httpTool := mcp.NewTool("http_request",
     mcp.WithDescription("Make HTTP requests to external APIs"),
@@ -384,18 +385,20 @@ s.AddTool(httpTool, func(ctx context.Context, request mcp.CallToolRequest) (*mcp
 ```
 
 Tools can be used for any kind of computation or side effect:
-- Database queries
-- File operations  
-- External API calls
-- Calculations
-- System operations
+
+* Database queries
+* File operations
+* External API calls
+* Calculations
+* System operations
 
 Each tool should:
-- Have a clear description
-- Validate inputs
-- Handle errors gracefully 
-- Return structured responses
-- Use appropriate result types
+
+* Have a clear description
+* Validate inputs
+* Handle errors gracefully
+* Return structured responses
+* Use appropriate result types
 
 </details>
 
@@ -418,7 +421,7 @@ s.AddPrompt(mcp.NewPrompt("greeting",
     if name == "" {
         name = "friend"
     }
-    
+
     return mcp.NewGetPromptResult(
         "A friendly greeting",
         []mcp.PromptMessage{
@@ -442,7 +445,7 @@ s.AddPrompt(mcp.NewPrompt("code_review",
     if prNumber == "" {
         return nil, fmt.Errorf("pr_number is required")
     }
-    
+
     return mcp.NewGetPromptResult(
         "Code review assistance",
         []mcp.PromptMessage{
@@ -473,7 +476,7 @@ s.AddPrompt(mcp.NewPrompt("query_builder",
     if tableName == "" {
         return nil, fmt.Errorf("table name is required")
     }
-    
+
     return mcp.NewGetPromptResult(
         "SQL query builder assistance",
         []mcp.PromptMessage{
@@ -494,19 +497,19 @@ s.AddPrompt(mcp.NewPrompt("query_builder",
 ```
 
 Prompts can include:
-- System instructions
-- Required arguments
-- Embedded resources
-- Multiple messages
-- Different content types (text, images, etc.)
-- Custom URI schemes
+
+* System instructions
+* Required arguments
+* Embedded resources
+* Multiple messages
+* Different content types (text, images, etc.)
+* Custom URI schemes
 
 </details>
 
 ## Examples
 
 For examples, see the `examples/` directory.
-
 
 ## Contributing
 
@@ -547,13 +550,11 @@ git checkout -b my-branch
 
 Make your changes and commit them:
 
-
 ```bash
 git add . && git commit -m "My changes"
 ```
 
 Push your changes to your fork:
-
 
 ```bash
 git push origin my-branch
